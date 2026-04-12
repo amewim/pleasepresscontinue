@@ -1,0 +1,1646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Please Press Continue, INLS 759</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:ital,wght@0,300;0,400;0,600;0,700;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+
+:root {
+  /* Midnight library palette */
+  --night:      #0d0f1a;   /* deep night sky */
+  --deep:       #131628;   /* dark indigo */
+  --mid:        #1c2040;   /* medium indigo */
+  --panel:      #1a1d35;   /* panel background */
+  --panel-alt:  #222646;   /* slightly lighter panel */
+  --border:     #3d4270;   /* pixel border color */
+  --border-dim: #252848;   /* dimmer border */
+
+  /* Text */
+  --text:       #d8daf5;   /* soft lavender white */
+  --text-dim:   #7c82b0;   /* muted text */
+  --text-muted: #3d4270;   /* very muted */
+
+  /* Moonlight accents */
+  --moon:       #b8c4e8;   /* cool moonlight */
+  --star:       #e8e4c0;   /* warm starlight */
+
+  /* Section colors, soft, painterly */
+  --inst:       #7bb8d4;   /* Carolina Blue */
+  --comm:       #b8a0e8;   /* Lavender */
+  --mod:        #d4956a;   /* Coral */
+
+  --inst-soft:  rgba(123,184,212,0.08);
+  --comm-soft:  rgba(184,160,232,0.08);
+  --mod-soft:   rgba(212,149,106,0.08);
+  --inst-mid:   rgba(123,184,212,0.18);
+  --comm-mid:   rgba(184,160,232,0.18);
+  --mod-mid:    rgba(212,149,106,0.18);
+
+  --pixel: 'Press Start 2P', monospace;
+  --serif: 'DM Serif Display', serif;
+  --sans:  'Nunito', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--night);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+
+/* star field background */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 10% 15%, rgba(232,228,192,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 25% 40%, rgba(216,218,245,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 40% 8%,  rgba(232,228,192,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 55% 25%, rgba(216,218,245,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 70% 12%, rgba(232,228,192,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 82% 35%, rgba(216,218,245,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 90% 20%, rgba(232,228,192,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 15% 60%, rgba(216,218,245,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 48% 55%, rgba(232,228,192,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 65% 70%, rgba(216,218,245,0.3) 0%, transparent 100%),
+    radial-gradient(2px 2px at 33% 22%, rgba(232,228,192,0.7) 0%, transparent 100%),
+    radial-gradient(2px 2px at 78% 8%,  rgba(184,196,232,0.6) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 92% 55%, rgba(232,228,192,0.5) 0%, transparent 100%);
+  pointer-events: none; z-index: 0;
+}
+
+/* soft moonlight glow from top */
+body::after {
+  content: '';
+  position: fixed; top: 0; left: 0; right: 0; height: 40vh;
+  background: radial-gradient(ellipse at 50% -20%, rgba(120,140,220,0.12) 0%, transparent 70%);
+  pointer-events: none; z-index: 0;
+}
+
+/* ── PIXEL BORDER MIXIN ────────────────────────────────
+   Classic 9-slice pixel border via box-shadow stack     */
+.px-border {
+  position: relative;
+  background: var(--panel);
+}
+.px-border::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  background: transparent;
+  box-shadow:
+    /* outer frame */
+    0 0 0 4px var(--border),
+    /* inner highlight top-left */
+    -2px -2px 0 4px var(--border-dim),
+    /* inner shadow bottom-right */
+    2px 2px 0 4px rgba(0,0,0,0.4);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Colored pixel borders */
+.px-border-inst::before { box-shadow: 0 0 0 4px var(--inst), -2px -2px 0 4px rgba(123,184,212,0.2), 2px 2px 0 4px rgba(0,0,0,0.5); }
+.px-border-comm::before { box-shadow: 0 0 0 4px var(--comm), -2px -2px 0 4px rgba(184,160,232,0.2), 2px 2px 0 4px rgba(0,0,0,0.5); }
+.px-border-mod::before  { box-shadow: 0 0 0 4px var(--mod),  -2px -2px 0 4px rgba(212,149,106,0.2), 2px 2px 0 4px rgba(0,0,0,0.5); }
+
+/* soft painted interior (inside pixel border) */
+.painted {
+  background: linear-gradient(135deg, var(--panel-alt) 0%, var(--panel) 100%);
+}
+.painted-inst { background: linear-gradient(135deg, rgba(123,184,212,0.06) 0%, var(--panel) 100%); }
+.painted-comm { background: linear-gradient(135deg, rgba(184,160,232,0.07) 0%, var(--panel) 100%); }
+.painted-mod  { background: linear-gradient(135deg, rgba(212,149,106,0.06) 0%, var(--panel) 100%); }
+
+/* ── ANIMATIONS ────────────────────────────────────────── */
+@keyframes blink   { 0%,49%{opacity:1} 50%,100%{opacity:0} }
+@keyframes float   { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-7px)} }
+@keyframes twinkle { 0%,100%{opacity:.6} 50%{opacity:1} }
+@keyframes slideUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fadeIn  { from{opacity:0} to{opacity:1} }
+@keyframes glow    { 0%,100%{text-shadow:0 0 8px rgba(184,196,232,0.3)} 50%{text-shadow:0 0 20px rgba(184,196,232,0.7), 0 0 40px rgba(184,196,232,0.2)} }
+@keyframes popIn   { 0%{transform:scale(0.85);opacity:0} 60%{transform:scale(1.03)} 100%{transform:scale(1);opacity:1} }
+@keyframes shimmer { 0%{background-position:200% center} 100%{background-position:-200% center} }
+@keyframes sway    { 0%,100%{transform:rotate(-1.5deg)} 50%{transform:rotate(1.5deg)} }
+
+/* ── LAYOUT ────────────────────────────────────────────── */
+.container { max-width: 1080px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 1; }
+
+/* scroll reveal */
+.reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.55s ease, transform 0.55s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.d1 { transition-delay: 0.1s; } .d2 { transition-delay: 0.2s; }
+.d3 { transition-delay: 0.3s; } .d4 { transition-delay: 0.4s; }
+
+/* ── TYPOGRAPHY ────────────────────────────────────────── */
+h1, h2 { font-family: var(--pixel); letter-spacing: 0.05em; line-height: 1.8; }
+p { font-family: var(--sans); font-size: 1.08rem; line-height: 1.9; color: var(--text-dim); font-weight: 300; max-width: 62ch; }
+.p-bright { color: var(--text); font-weight: 400; }
+.p-italic { font-family: var(--serif); font-style: italic; font-size: 1.05rem; color: var(--moon); }
+
+/* ══ START SCREEN ════════════════════════════════════════ */
+#start-screen {
+  position: fixed; inset: 0;
+  background: var(--night);
+  z-index: 1000;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.start-panel {
+  padding: 52px 64px;
+  text-align: center;
+  max-width: 540px; width: 90%;
+  background: var(--panel);
+  position: relative;
+  /* chunky pixel border */
+  box-shadow:
+    0 0 0 4px var(--comm),
+    0 0 0 8px var(--border-dim),
+    0 0 60px rgba(184,160,232,0.12),
+    inset 0 0 40px rgba(0,0,0,0.3);
+}
+
+/* corner ornaments */
+.start-panel::before {
+  content: '+--+';
+  position: absolute; top: 8px; left: 12px;
+  font-family: var(--pixel); font-size: 0.3rem;
+  color: var(--border); letter-spacing: 0.1em;
+}
+.start-panel::after {
+  content: '+--+';
+  position: absolute; bottom: 8px; right: 12px;
+  font-family: var(--pixel); font-size: 0.3rem;
+  color: var(--border); letter-spacing: 0.1em;
+}
+
+.start-gem {
+  font-family: var(--pixel);
+  font-size: 1.5rem;
+  color: var(--comm);
+  display: block;
+  margin-bottom: 20px;
+  animation: float 3.5s ease-in-out infinite, glow 3.5s ease-in-out infinite;
+}
+
+.start-title {
+  font-family: var(--pixel);
+  font-size: clamp(0.65rem, 2vw, 0.95rem);
+  color: var(--text);
+  line-height: 2;
+  margin-bottom: 8px;
+  letter-spacing: 0.06em;
+}
+
+.start-sub {
+  font-family: var(--serif);
+  font-size: 1rem;
+  color: var(--moon);
+  font-style: italic;
+  margin-bottom: 32px;
+}
+
+.start-rule {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--comm), transparent);
+  margin: 0 auto 28px;
+  width: 70%;
+}
+
+.start-press {
+  font-family: var(--pixel);
+  font-size: 0.42rem;
+  color: var(--comm);
+  letter-spacing: 0.18em;
+  animation: blink 1.3s step-end infinite;
+  margin-bottom: 28px;
+  display: block;
+}
+
+.start-meta {
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  line-height: 2.2;
+}
+.start-meta strong { color: var(--moon); font-weight: 600; }
+
+/* ══ NAV / SAVE TRACKER ══════════════════════════════════ */
+#nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 500;
+  padding: 10px 32px;
+  display: flex; justify-content: space-between; align-items: center;
+  transform: translateY(-100%);
+  transition: transform 0.4s ease;
+  /* pixel border bottom */
+  border-bottom: 2px solid var(--border);
+  box-shadow: 0 2px 0 var(--border-dim), 0 4px 20px rgba(0,0,0,0.4);
+  background: rgba(13,15,26,0.95);
+  backdrop-filter: blur(12px);
+}
+#nav.visible { transform: translateY(0); }
+
+.nav-left { display: flex; align-items: center; gap: 14px; }
+
+.nav-gem {
+  width: 10px; height: 10px;
+  background: var(--comm);
+  box-shadow: 0 0 8px var(--comm);
+  animation: twinkle 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+.nav-title {
+  font-family: var(--pixel);
+  font-size: 0.36rem;
+  color: var(--moon);
+  letter-spacing: 0.1em;
+}
+
+.nav-mid { display: flex; align-items: center; gap: 16px; }
+
+.nav-reading {
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  color: var(--text-dim);
+}
+.nav-reading span { color: var(--text); font-weight: 600; }
+
+/* progress bar, pixel style */
+.nav-prog-wrap {
+  display: flex; align-items: center; gap: 8px;
+}
+.nav-prog-label {
+  font-family: var(--pixel);
+  font-size: 0.28rem;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+}
+.nav-prog-track {
+  width: 100px; height: 8px;
+  background: var(--deep);
+  border: 2px solid var(--border);
+  position: relative;
+}
+.nav-prog-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--inst), var(--comm), var(--mod));
+  width: 0%;
+  transition: width 0.4s ease;
+}
+
+.nav-links { display: flex; gap: 2px; list-style: none; }
+.nav-links a {
+  font-family: var(--pixel);
+  font-size: 0.3rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  padding: 6px 10px;
+  letter-spacing: 0.05em;
+  border: 2px solid transparent;
+  transition: none;
+}
+.nav-links a:hover { color: var(--text); border-color: var(--border); background: var(--mid); }
+.nav-links a.active { color: var(--comm); border-color: var(--comm); background: var(--comm-soft); }
+
+/* ══ HERO ════════════════════════════════════════════════ */
+#hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column; justify-content: space-between;
+  padding: 100px 0 0;
+  position: relative; z-index: 1;
+  border-bottom: 2px solid var(--border);
+  box-shadow: 0 2px 0 var(--border-dim);
+}
+
+/* twinkling stars in hero */
+.star-dot {
+  position: absolute;
+  width: 2px; height: 2px;
+  background: var(--star);
+  border-radius: 50%;
+  animation: twinkle var(--dur, 3s) ease-in-out infinite;
+  animation-delay: var(--del, 0s);
+}
+
+/* pixel window frame for title area */
+.hero-window {
+  display: inline-block;
+  padding: 32px 40px 32px 0;
+  position: relative;
+  margin-bottom: 32px;
+}
+
+.hero-window-label {
+  font-family: var(--pixel);
+  font-size: 0.38rem;
+  color: var(--comm);
+  letter-spacing: 0.15em;
+  margin-bottom: 16px;
+  display: flex; align-items: center; gap: 10px;
+  opacity: 0;
+}
+.hero-window-label.in { animation: slideUp 0.4s ease forwards; }
+.hero-window-label::before {
+  content: '';
+  display: inline-block;
+  width: 8px; height: 8px;
+  background: var(--comm);
+  box-shadow: 0 0 8px var(--comm);
+  animation: twinkle 2s ease-in-out infinite;
+}
+
+.hero-title-main {
+  font-family: var(--pixel);
+  font-size: clamp(1rem, 3vw, 2.2rem);
+  color: var(--text);
+  display: block;
+  line-height: 1.6;
+  min-height: 1.6em;
+  text-shadow: 0 0 30px rgba(184,196,232,0.2);
+}
+
+.hero-title-sub {
+  font-family: var(--serif);
+  font-size: clamp(1.1rem, 2.2vw, 1.7rem);
+  color: var(--moon);
+  display: block;
+  margin-top: 10px;
+  font-style: italic;
+  min-height: 1.6em;
+}
+
+.hero-desc {
+  font-family: var(--sans);
+  font-size: 1rem;
+  color: var(--text-dim);
+  max-width: 56ch;
+  margin-bottom: 32px;
+  line-height: 1.85;
+  opacity: 0; font-weight: 300;
+}
+.hero-desc.in { animation: slideUp 0.5s 0.4s ease forwards; }
+
+/* dialogue box hint, classic RPG style */
+.dialogue-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--panel);
+  border: 2px solid var(--border);
+  box-shadow: 0 2px 0 var(--border-dim), inset 0 0 20px rgba(0,0,0,0.2);
+  padding: 12px 20px;
+  margin-bottom: 36px;
+  opacity: 0;
+}
+.dialogue-hint.in { animation: slideUp 0.5s 0.6s ease forwards; }
+.dialogue-hint-text {
+  font-family: var(--pixel);
+  font-size: 0.38rem;
+  color: var(--text-dim);
+  letter-spacing: 0.1em;
+}
+.dialogue-cursor {
+  width: 8px; height: 14px;
+  background: var(--comm);
+  animation: blink 0.8s step-end infinite;
+  flex-shrink: 0;
+}
+
+.hero-meta {
+  display: flex; gap: 0;
+  border-top: 2px solid var(--border);
+  padding-top: 20px;
+  flex-wrap: wrap;
+  opacity: 0;
+}
+.hero-meta.in { animation: slideUp 0.5s 0.7s ease forwards; }
+.meta-cell { padding: 10px 24px; border-right: 2px solid var(--border); }
+.meta-cell:first-child { padding-left: 0; }
+.m-key { font-family: var(--pixel); font-size: 0.3rem; color: var(--text-muted); display: block; margin-bottom: 5px; letter-spacing: 0.1em; }
+.m-val { font-family: var(--sans); font-size: 0.88rem; color: var(--moon); font-weight: 600; }
+
+/* bookshelf at bottom of hero */
+.hero-shelf {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 72px;
+  background: var(--deep);
+  border-top: 4px solid var(--border);
+  box-shadow: inset 0 4px 0 var(--border-dim);
+  display: flex; align-items: flex-end;
+  padding: 0 32px;
+  gap: 4px;
+  overflow: hidden;
+}
+
+.book {
+  flex-shrink: 0;
+  border-radius: 1px 1px 0 0;
+  transition: transform 0.25s ease;
+  cursor: default;
+  /* pixel edge on spine */
+  box-shadow: 2px 0 0 rgba(0,0,0,0.3), -1px 0 0 rgba(255,255,255,0.05);
+}
+.book:hover { transform: translateY(-8px); }
+
+/* ══ COLLECTION SCREEN ═══════════════════════════════════ */
+#collection {
+  padding: 72px 32px;
+  border-bottom: 2px solid var(--border);
+  box-shadow: 0 2px 0 var(--border-dim);
+  position: relative; z-index: 1;
+}
+
+.screen-header {
+  display: flex; align-items: center; gap: 20px;
+  margin-bottom: 48px;
+}
+.screen-header-line { flex: 1; height: 2px; background: linear-gradient(90deg, var(--border), transparent); }
+.screen-header-title {
+  font-family: var(--pixel);
+  font-size: 0.48rem;
+  color: var(--moon);
+  letter-spacing: 0.15em;
+  white-space: nowrap;
+}
+.screen-header-gem {
+  width: 8px; height: 8px;
+  background: var(--star);
+  box-shadow: 0 0 6px var(--star);
+}
+
+.vol-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+.vol-card {
+  padding: 28px 24px 24px;
+  display: flex; flex-direction: column; gap: 14px;
+  cursor: pointer; text-decoration: none; color: inherit;
+  transition: transform 0.2s ease;
+  position: relative;
+  /* painted interior */
+  background: var(--panel);
+}
+
+/* pixel border around each card */
+.vol-card.inst { box-shadow: 0 0 0 3px var(--inst), 0 0 0 5px var(--border-dim), 0 0 20px var(--inst-soft); }
+.vol-card.comm { box-shadow: 0 0 0 3px var(--comm), 0 0 0 5px var(--border-dim), 0 0 20px var(--comm-soft); }
+.vol-card.mod  { box-shadow: 0 0 0 3px var(--mod),  0 0 0 5px var(--border-dim), 0 0 20px var(--mod-soft); }
+
+.vol-card.inst { background: linear-gradient(160deg, rgba(123,184,212,0.05) 0%, var(--panel) 60%); }
+.vol-card.comm { background: linear-gradient(160deg, rgba(184,160,232,0.06) 0%, var(--panel) 60%); }
+.vol-card.mod  { background: linear-gradient(160deg, rgba(212,149,106,0.05) 0%, var(--panel) 60%); }
+
+.vol-card:hover { transform: translateY(-5px); }
+.vol-card.inst:hover { box-shadow: 0 0 0 3px var(--inst), 0 0 0 5px var(--border-dim), 0 0 32px rgba(123,184,212,0.2); }
+.vol-card.comm:hover { box-shadow: 0 0 0 3px var(--comm), 0 0 0 5px var(--border-dim), 0 0 32px rgba(184,160,232,0.25); }
+.vol-card.mod:hover  { box-shadow: 0 0 0 3px var(--mod),  0 0 0 5px var(--border-dim), 0 0 32px rgba(212,149,106,0.2); }
+
+/* hover cursor arrow */
+.vol-card::after {
+  content: '> ';
+  font-family: var(--pixel);
+  font-size: 0.5rem;
+  position: absolute;
+  top: 16px; left: -18px;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.vol-card.inst::after { color: var(--inst); }
+.vol-card.comm::after { color: var(--comm); }
+.vol-card.mod::after  { color: var(--mod);  }
+.vol-card:hover::after { opacity: 1; }
+
+.vol-num { font-family: var(--pixel); font-size: 0.32rem; letter-spacing: 0.1em; color: var(--text-muted); }
+
+/* small pixel icon box */
+.vol-icon-box {
+  width: 48px; height: 48px;
+  border: 2px solid;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--pixel);
+  font-size: 0.7rem;
+}
+.inst .vol-icon-box { border-color: var(--inst); color: var(--inst); background: var(--inst-soft); }
+.comm .vol-icon-box { border-color: var(--comm); color: var(--comm); background: var(--comm-soft); }
+.mod  .vol-icon-box { border-color: var(--mod);  color: var(--mod);  background: var(--mod-soft); }
+
+.vol-title { font-family: var(--serif); font-size: 1.3rem; line-height: 1.3; letter-spacing: 0em; }
+.vol-card.inst .vol-title { color: var(--inst); }
+.vol-card.comm .vol-title { color: var(--comm); }
+.vol-card.mod  .vol-title { color: var(--mod);  }
+
+.vol-desc { font-family: var(--sans); font-size: 0.95rem; color: var(--text-dim); line-height: 1.7; font-weight: 300; }
+
+.vol-tag {
+  font-family: var(--pixel); font-size: 0.3rem;
+  letter-spacing: 0.08em; padding: 5px 9px;
+  border: 1px solid; align-self: flex-start; margin-top: auto;
+}
+.vol-card.inst .vol-tag { border-color: var(--inst); color: var(--inst); }
+.vol-card.comm .vol-tag { border-color: var(--comm); color: var(--comm); }
+.vol-card.mod  .vol-tag { border-color: var(--mod);  color: var(--mod);  }
+
+/* ══ SHARED SECTION ANATOMY ══════════════════════════════ */
+.exhibit-section {
+  padding: 80px 32px 64px;
+  border-bottom: 2px solid var(--border);
+  box-shadow: 0 2px 0 var(--border-dim);
+  position: relative; z-index: 1;
+}
+#institutional { padding-top: 112px; padding-bottom: 80px; }
+#community     { padding-top: 72px;  padding-bottom: 108px; background: radial-gradient(ellipse at 20% 40%, rgba(184,160,232,0.07) 0%, transparent 60%), radial-gradient(ellipse at 80% 80%, rgba(123,184,212,0.04) 0%, transparent 50%); }
+#modding       { padding-top: 96px;  padding-bottom: 72px; background: radial-gradient(ellipse at 80% 20%, rgba(212,149,106,0.07) 0%, transparent 55%); }
+
+.section-eyebrow {
+  font-family: var(--pixel); font-size: 0.36rem;
+  letter-spacing: 0.15em; margin-bottom: 14px;
+  display: flex; align-items: center; gap: 10px;
+}
+.section-eyebrow::before { content: ''; display: inline-block; width: 6px; height: 6px; border: 2px solid; }
+.section-eyebrow.inst { color: var(--inst); }
+.section-eyebrow.inst::before { border-color: var(--inst); background: var(--inst); }
+.section-eyebrow.comm { color: var(--comm); }
+.section-eyebrow.comm::before { border-color: var(--comm); background: var(--comm); }
+.section-eyebrow.mod  { color: var(--mod); }
+.section-eyebrow.mod::before  { border-color: var(--mod);  background: var(--mod); }
+
+.section-title {
+  font-family: var(--serif);
+  font-size: clamp(2.8rem, 6vw, 4.8rem);
+  line-height: 1.0; margin-bottom: 32px; letter-spacing: -0.03em;
+  font-weight: 400;
+}
+.section-title.inst { color: var(--inst); }
+.section-title.comm { color: var(--comm); }
+.section-title.mod  { color: var(--mod);  }
+
+/* pull quote — breaks the grid, large italic serif */
+.pull-quote {
+  font-family: var(--serif);
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  font-style: italic;
+  color: var(--moon);
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  border-left: 3px solid var(--comm);
+  padding-left: 28px;
+  margin: 48px 0 48px -8px;
+  max-width: 52ch;
+}
+.pull-quote.inst { border-color: var(--inst); }
+.pull-quote.comm { border-color: var(--comm); }
+.pull-quote.mod  { border-color: var(--mod);  }
+
+/* caption text — smaller, muted */
+.caption {
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-style: italic;
+  line-height: 1.5;
+  margin-top: 8px;
+  display: block;
+  font-weight: 300;
+}
+
+.section-grid {
+  display: grid; grid-template-columns: 5fr 7fr;
+  gap: 64px; margin-bottom: 64px; padding-bottom: 48px;
+  border-bottom: 1px solid var(--border-dim);
+  align-items: start;
+}
+
+/* pixel-bordered content panel */
+.content-panel {
+  padding: 0;
+  position: relative;
+  background: transparent;
+}
+.content-panel.inst { border-left: 3px solid var(--inst); padding-left: 24px; }
+.content-panel.comm { border-left: 3px solid var(--comm); padding-left: 24px; }
+.content-panel.mod  { border-left: 3px solid var(--mod);  padding-left: 24px; }
+
+/* life pips */
+.life-bar { display: flex; align-items: center; gap: 5px; margin-bottom: 24px; }
+.life-label { font-family: var(--pixel); font-size: 0.3rem; color: var(--text-muted); letter-spacing: 0.08em; margin-right: 8px; }
+.life-pip { width: 12px; height: 12px; background: var(--deep); border: 2px solid var(--border); }
+.life-pip.inst { background: var(--inst); border-color: var(--inst); box-shadow: 0 0 6px var(--inst); }
+.life-pip.comm { background: var(--comm); border-color: var(--comm); box-shadow: 0 0 6px var(--comm); }
+.life-pip.mod  { background: var(--mod);  border-color: var(--mod);  box-shadow: 0 0 6px var(--mod); }
+
+/* image placeholders */
+.img-ph {
+  background: transparent;
+  border: none;
+  border-top: 1px solid;
+  border-bottom: 1px solid;
+  display: flex; flex-direction: column;
+  align-items: flex-start; justify-content: flex-end;
+  gap: 6px; padding: 20px 0 12px;
+  position: relative;
+}
+.img-ph.tall   { min-height: 240px; }
+.img-ph.medium { min-height: 170px; }
+.img-ph.wide   { min-height: 130px; width: 100%; }
+.img-ph.inst { border-color: rgba(123,184,212,0.25); }
+.img-ph.comm { border-color: rgba(184,160,232,0.25); }
+.img-ph.mod  { border-color: rgba(212,149,106,0.25); }
+.img-ph::before { display: none; }
+.img-ph::after  { display: none; }
+.ph-icon-px { display: none; }
+.ph-text {
+  font-family: var(--serif);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-style: italic;
+  line-height: 1.6;
+  text-align: left;
+  max-width: 40ch;
+}
+
+/* subsections */
+.subsections { display: grid; grid-template-columns: 1fr 1fr; gap: 40px 28px; margin-bottom: 48px; }
+.subsection { display: flex; flex-direction: column; gap: 12px; }
+.sub-label { font-family: var(--pixel); font-size: 0.36rem; letter-spacing: 0.12em; padding-bottom: 12px; border-bottom: 2px solid; }
+.inst .sub-label { color: var(--inst); border-color: rgba(123,184,212,0.3); }
+.comm .sub-label { color: var(--comm); border-color: rgba(184,160,232,0.3); }
+.mod  .sub-label { color: var(--mod);  border-color: rgba(212,149,106,0.3); }
+
+/* case study, dialogue box style */
+.case-study {
+  padding: 32px;
+  margin-bottom: 24px;
+  position: relative;
+  background: var(--deep);
+}
+.case-study.inst { box-shadow: 0 0 0 3px var(--inst), 0 0 0 5px var(--border-dim), 0 0 24px var(--inst-soft); }
+.case-study.comm { box-shadow: 0 0 0 3px var(--comm), 0 0 0 5px var(--border-dim), 0 0 24px var(--comm-soft); }
+.case-study.mod  { box-shadow: 0 0 0 3px var(--mod),  0 0 0 5px var(--border-dim), 0 0 24px var(--mod-soft); }
+
+/* RPG nameplate */
+.case-nameplate {
+  position: absolute; top: -14px; left: 20px;
+  font-family: var(--pixel); font-size: 0.3rem;
+  letter-spacing: 0.08em; padding: 4px 10px;
+  border: 2px solid; background: var(--night);
+}
+.inst .case-nameplate { color: var(--inst); border-color: var(--inst); }
+.comm .case-nameplate { color: var(--comm); border-color: var(--comm); }
+.mod  .case-nameplate { color: var(--mod);  border-color: var(--mod);  }
+
+.case-title { font-family: var(--serif); font-size: 1.6rem; letter-spacing: 0em; margin: 10px 0 14px; line-height: 1.2; }
+.inst .case-title { color: var(--inst); }
+.comm .case-title { color: var(--comm); }
+.mod  .case-title { color: var(--mod);  }
+
+/* challenge block */
+.challenge {
+  background: rgba(0,0,0,0.25);
+  border: 2px solid; border-radius: 2px;
+  padding: 22px 26px; margin-top: 32px;
+}
+.inst .challenge { border-color: rgba(123,184,212,0.3); }
+.comm .challenge { border-color: rgba(184,160,232,0.3); }
+.mod  .challenge { border-color: rgba(212,149,106,0.3); }
+
+.challenge-hd { font-family: var(--pixel); font-size: 0.34rem; letter-spacing: 0.1em; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.challenge-hd::before { content: '!'; display: inline-flex; width: 14px; height: 14px; align-items: center; justify-content: center; border: 2px solid; font-size: 0.4rem; flex-shrink: 0; }
+.inst .challenge-hd { color: var(--inst); } .inst .challenge-hd::before { border-color: var(--inst); }
+.comm .challenge-hd { color: var(--comm); } .comm .challenge-hd::before { border-color: var(--comm); }
+.mod  .challenge-hd { color: var(--mod);  } .mod  .challenge-hd::before { border-color: var(--mod); }
+
+.note { font-family: var(--serif); font-size: 0.85rem; color: var(--text-muted); font-style: italic; display: inline-block; margin-bottom: 8px; padding: 0; border: none; }
+
+/* interlude, dialogue bar */
+.interlude {
+  padding: 40px 10vw;
+  background: var(--deep);
+  border-top: 2px solid var(--border); border-bottom: 2px solid var(--border);
+  box-shadow: 0 2px 0 var(--border-dim), 0 -2px 0 var(--border-dim);
+  display: flex; align-items: center; gap: 28px;
+  position: relative; z-index: 1;
+}
+.interlude-arrow { font-family: var(--pixel); font-size: 0.7rem; color: var(--text-muted); flex-shrink: 0; animation: sway 4s ease-in-out infinite; }
+.interlude p {
+  font-family: var(--serif); font-style: italic;
+  color: var(--moon); font-size: clamp(1.5rem, 3vw, 2.2rem);
+  line-height: 1.4; max-width: 54ch; letter-spacing: -0.02em;
+}
+
+/* ══ MUSIC BTN ═══════════════════════════════════════════ */
+#music-btn {
+  position: fixed; bottom: 24px; right: 24px; z-index: 600;
+  font-family: var(--pixel); font-size: 0.32rem; letter-spacing: 0.08em;
+  background: var(--panel);
+  border: 2px solid var(--border);
+  box-shadow: 0 2px 0 var(--border-dim), 0 4px 16px rgba(0,0,0,0.4);
+  color: var(--text-muted); padding: 10px 14px; cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+#music-btn:hover { color: var(--moon); border-color: var(--comm); }
+#music-btn.on { color: var(--comm); border-color: var(--comm); box-shadow: 0 2px 0 var(--border-dim), 0 0 16px rgba(184,160,232,0.2); }
+
+
+
+/* ══ CLOSING ═════════════════════════════════════════════ */
+#closing { padding: 72px 32px; position: relative; z-index: 1; }
+
+.closing-gem-row { text-align: center; margin-bottom: 12px; font-family: var(--pixel); font-size: 0.5rem; color: var(--comm); letter-spacing: 0.3em; animation: glow 4s ease-in-out infinite; }
+.closing-title { font-family: var(--pixel); font-size: clamp(0.5rem, 1.5vw, 0.75rem); color: var(--moon); text-align: center; margin-bottom: 16px; letter-spacing: 0.08em; }
+.closing-text { font-family: var(--serif); font-size: 1rem; color: var(--text-dim); text-align: center; max-width: 58ch; margin: 0 auto 48px; line-height: 1.9; font-style: italic; }
+
+.closing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+
+.credits-panel {
+  padding: 28px;
+  background: var(--panel);
+  box-shadow: 0 0 0 3px var(--comm), 0 0 0 5px var(--border-dim), 0 0 20px var(--comm-soft);
+}
+.credits-hd { font-family: var(--pixel); font-size: 0.38rem; color: var(--comm); letter-spacing: 0.12em; text-align: center; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 2px solid var(--border); }
+.cr-row { display: flex; justify-content: space-between; align-items: baseline; padding: 9px 0; border-bottom: 1px solid var(--border-dim); gap: 12px; }
+.cr-key { font-family: var(--pixel); font-size: 0.28rem; color: var(--text-muted); letter-spacing: 0.07em; flex-shrink: 0; }
+.cr-val { font-family: var(--sans); font-size: 0.85rem; font-weight: 600; color: var(--moon); text-align: right; }
+
+.refs-panel { display: flex; flex-direction: column; }
+.ref { padding: 11px 0; border-bottom: 1px solid var(--border-dim); }
+.ref-lbl { font-family: var(--pixel); font-size: 0.26rem; color: var(--text-muted); letter-spacing: 0.07em; display: block; margin-bottom: 3px; }
+.ref-body { font-family: var(--sans); font-size: 0.82rem; color: var(--text-dim); line-height: 1.6; font-weight: 300; }
+.ref:last-child { border: none; }
+
+footer { background: var(--deep); border-top: 2px solid var(--border); box-shadow: 0 -2px 0 var(--border-dim); padding: 24px 32px; text-align: center; position: relative; z-index: 1; }
+.footer-t { font-family: var(--pixel); font-size: 0.3rem; color: var(--text-muted); letter-spacing: 0.1em; line-height: 2.8; }
+.footer-t span { color: var(--comm); }
+
+/* ── PLACEHOLDER BLOCKS ───────────────────────────────── */
+.placeholder-block {
+  background: rgba(184,160,232,0.06);
+  border: 1px dashed rgba(184,160,232,0.35);
+  border-radius: 3px;
+  padding: 16px 20px;
+  position: relative;
+}
+
+.placeholder-block::before {
+  content: 'YOUR CONTENT HERE';
+  display: block;
+  font-family: var(--pixel);
+  font-size: 0.28rem;
+  color: var(--comm);
+  letter-spacing: 0.14em;
+  margin-bottom: 10px;
+  opacity: 0.8;
+}
+
+.placeholder-block p,
+.placeholder-block .case-title {
+  color: var(--text-muted) !important;
+  font-style: italic;
+}
+
+.placeholder-img {
+  background: rgba(184,160,232,0.04);
+  border: 1px dashed rgba(184,160,232,0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 24px;
+  position: relative;
+}
+
+.placeholder-img::before {
+  content: 'INSERT SCREENSHOT';
+  font-family: var(--pixel);
+  font-size: 0.28rem;
+  color: var(--comm);
+  letter-spacing: 0.12em;
+  opacity: 0.6;
+}
+
+.placeholder-img .ph-text {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.placeholder-img.tall   { min-height: 240px; }
+.placeholder-img.medium { min-height: 170px; }
+.placeholder-img.wide   { min-height: 130px; width: 100%; }
+
+/* ── CURSOR TRAIL ─────────────────────────────────────── */
+.cursor-trail {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9000;
+  border-radius: 50%;
+  mix-blend-mode: screen;
+  transform: translate(-50%, -50%);
+}
+
+/* ── DAY/NIGHT SKY ────────────────────────────────────── */
+#sky-overlay {
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 0;
+  transition: background 1.4s ease;
+  background: transparent;
+}
+
+@media (max-width: 768px) {
+  .vol-grid, .section-grid, .subsections, .closing-grid { grid-template-columns: 1fr; }
+  .nav-mid { display: none; }
+  .start-panel { padding: 32px 24px; }
+}
+</style>
+</head>
+<body>
+<div id="sky-overlay"></div>
+
+<!-- ══ START SCREEN ════════════════════════════════════════ -->
+<div id="start-screen">
+  <div class="start-panel">
+    <span class="start-gem">* * *</span>
+    <div class="start-title">Please Press Continue</div>
+    <div class="start-sub">Distributed Care</div>
+    <div class="start-rule"></div>
+    <span class="start-press">-- click anywhere to open --</span>
+    <div class="start-meta">
+      <strong>Cooley · Freeman · Wimbish</strong><br>
+      INLS 759 · Community Archives<br>
+      SILS, UNC Chapel Hill · 2026<br>
+    </div>
+  </div>
+</div>
+
+<!-- ══ NAV ════════════════════════════════════════════════ -->
+<div id="nav">
+  <div class="nav-left">
+    <div class="nav-gem"></div>
+    <span class="nav-title">Please Press Continue</span>
+  </div>
+  <div class="nav-mid">
+    <span class="nav-reading">Reading: <span id="stage-name">Introduction</span></span>
+    <div class="nav-prog-wrap">
+      <span class="nav-prog-label">Progress</span>
+      <div class="nav-prog-track"><div class="nav-prog-fill" id="prog-fill"></div></div>
+    </div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#collection">Map</a></li>
+    <li><a href="#institutional">Vol. I</a></li>
+    <li><a href="#community">Vol. II</a></li>
+    <li><a href="#modding">Vol. III</a></li>
+    <li><a href="#closing">End</a></li>
+  </ul>
+</div>
+
+<!-- ══ HERO ════════════════════════════════════════════════ -->
+<section id="hero">
+  <!-- twinkling stars -->
+  <div class="star-dot" style="top:12%;left:8%;--dur:3.2s;--del:0s;"></div>
+  <div class="star-dot" style="top:20%;left:72%;--dur:4.1s;--del:-1.2s;"></div>
+  <div class="star-dot" style="top:35%;left:45%;--dur:2.8s;--del:-0.5s;"></div>
+  <div class="star-dot" style="top:8%;left:55%;--dur:3.7s;--del:-2s;"></div>
+  <div class="star-dot" style="top:55%;left:88%;--dur:4.4s;--del:-3s;"></div>
+  <div class="star-dot" style="top:18%;left:30%;--dur:3s;--del:-1.8s;"></div>
+  <div class="star-dot" style="top:42%;left:15%;--dur:5s;--del:-0.3s;"></div>
+
+  <!-- TEXT CONTENT, full width, no overlap -->
+  <div class="container" style="position:relative; z-index:2; padding-bottom: 48px;">
+    <div class="hero-window">
+      <div class="hero-window-label" id="hero-label">INLS 759 · Community Archives · SILS UNC · 2026</div>
+      <span class="hero-title-main" id="hero-title"></span>
+      <span class="hero-title-sub" id="hero-sub"></span>
+    </div>
+
+    <p class="hero-desc" id="hero-desc">
+      Video games are not preserved in a single archive. This exhibit maps three distinct environments where preservation happens, each sustaining a different part of what games mean, and how they survive across time.
+    </p>
+
+    <div class="dialogue-hint" id="hero-hint">
+      <span class="dialogue-hint-text">scroll to begin reading</span>
+      <div class="dialogue-cursor"></div>
+    </div>
+
+    <div class="hero-meta" id="hero-meta">
+      <div class="meta-cell"><span class="m-key">Authors</span><span class="m-val">Cooley · Freeman · Wimbish</span></div>
+      <div class="meta-cell"><span class="m-key">Course</span><span class="m-val">INLS 759 · Community Archives</span></div>
+      <div class="meta-cell"><span class="m-key">Institution</span><span class="m-val">SILS, UNC Chapel Hill</span></div>
+      <div class="meta-cell"><span class="m-key">Year</span><span class="m-val">2026</span></div>
+    </div>
+  </div>
+
+  <!-- PIXEL SCENE, sits below text, full width -->
+  <div style="position:relative; z-index:1; width:100%; border-top: 2px solid var(--border); box-shadow: 0 -2px 0 var(--border-dim);">
+    <canvas id="pixel-scene" style="
+      display:block;
+      width:100%; height:160px;
+      image-rendering:pixelated;
+      image-rendering:crisp-edges;
+    "></canvas>
+  </div>
+</section>
+
+<!-- ══ COLLECTION MAP ══════════════════════════════════════ -->
+<section id="collection" style="padding:72px 32px;border-bottom:2px solid var(--border);box-shadow:0 2px 0 var(--border-dim);position:relative;z-index:1;">
+  <div class="container">
+    <div class="screen-header reveal">
+      <div class="screen-header-gem"></div>
+      <div class="screen-header-line"></div>
+      <span class="screen-header-title">Select a Volume</span>
+      <div class="screen-header-line" style="background:linear-gradient(90deg,transparent,var(--border));"></div>
+      <div class="screen-header-gem"></div>
+    </div>
+
+    <p class="reveal d1 p-italic" style="text-align:center;margin:0 auto 40px;">
+      Three volumes. Three environments. One distributed archive.
+    </p>
+
+    <div class="vol-grid">
+      <a href="#institutional" class="vol-card inst reveal d1">
+        <span class="vol-num">Volume I</span>
+        <div class="vol-icon-box inst">I</div>
+        <div class="vol-title">Institutional<br>Archives &amp; Museums</div>
+        <p class="vol-desc">How formal institutions collect games as cultural artifacts, preserving hardware, software, and documentation for long-term access and scholarship.</p>
+        <span class="vol-tag">Objects &amp; Documents</span>
+      </a>
+      <a href="#community" class="vol-card comm reveal d2">
+        <span class="vol-num">Volume II</span>
+        <div class="vol-icon-box comm">II</div>
+        <div class="vol-title">Community<br>Preservation<br>Infrastructures</div>
+        <p class="vol-desc">How grassroots networks, ROM communities, emulation projects, distributed archives, maintain access to playable games outside formal institutions.</p>
+        <span class="vol-tag">Access &amp; Circulation</span>
+      </a>
+      <a href="#modding" class="vol-card mod reveal d3">
+        <span class="vol-num">Volume III</span>
+        <div class="vol-icon-box mod">III</div>
+        <div class="vol-title">Modding<br>Communities</div>
+        <p class="vol-desc">How players transform games and create new forms of play, building repositories, documentation, and creative cultures that preserve what institutions miss.</p>
+        <span class="vol-tag">Creative Practice</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ VOL I, INSTITUTIONAL ═══════════════════════════════ -->
+<section id="institutional" class="exhibit-section">
+  <div class="container">
+    <div class="life-bar reveal">
+      <span class="life-label">Vol. I</span>
+      <div class="life-pip inst"></div><div class="life-pip"></div><div class="life-pip"></div>
+    </div>
+    <div class="section-eyebrow inst reveal">Environment 01 · Institutional Archives</div>
+    <div class="section-grid">
+      <div class="reveal d1">
+        <div class="section-title inst">Institutional<br>Archives<br>&amp; Museums</div>
+        </div>
+      <div class="content-panel inst reveal d2">
+        <div class="placeholder-block"><p>Author's opening paragraph — what institutional archives and museums collect, how they approach games as cultural artifacts, and what they are uniquely positioned to preserve. Name 1–2 specific institutions as anchors.</p></div>
+      </div>
+    </div>
+
+    <div class="img-ph tall inst reveal" style="margin-bottom:28px;">
+      <span class="ph-icon-px">[ IMG ]</span>
+      <span class="ph-text">Hero screenshot or photo<br>e.g. The Strong Museum / Smithsonian exhibit</span>
+    </div>
+
+    <div class="subsections">
+      <div class="subsection inst reveal d1">
+        <span class="sub-label">What Gets Preserved</span>
+        <div class="placeholder-block"><p>What gets preserved: hardware, software, design documents, promotional materials, source code. What tends to get prioritized, and what falls through the gaps.</p></div>
+        <div class="placeholder-img medium inst">
+          <span class="ph-icon-px">[ IMG ]</span>
+          <span class="ph-text">Screenshot<br>collection item / finding aid</span>
+        </div>
+      </div>
+      <div class="subsection inst reveal d2">
+        <span class="sub-label">How It Works</span>
+        <div class="placeholder-block"><p>How it works: accessioning, cataloging, digital workflows, on-site access policies. How do researchers actually use these collections?</p></div>
+        <div class="placeholder-img medium inst">
+          <span class="ph-icon-px">[ IMG ]</span>
+          <span class="ph-text">Screenshot<br>archive interface / metadata record</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="case-study inst reveal">
+      <span class="case-nameplate">Case Study</span>
+      <div class="placeholder-block" style="margin-top:8px;">
+        <div class="case-title" style="color:var(--inst);font-size:1.3rem;margin-bottom:10px;">Institution Name</div>
+        <p>Detailed example: The Strong, Smithsonian, VGHF. What does it hold, how is it accessed, what are its limitations?</p>
+      </div>
+      <div class="placeholder-img wide inst" style="margin-top:20px;">
+        <span class="ph-icon-px">[ IMG ]</span>
+        <span class="ph-text">Screenshot of institution interface or exhibit</span>
+      </div>
+    </div>
+
+    <div class="challenge inst reveal">
+      <div class="challenge-hd">Key Tension</div>
+      <p>[Copyright law limits what institutions can share digitally. On-site requirements restrict who can use collections. Institutional priorities may exclude regional or marginal titles.]</p>
+    </div>
+  </div>
+</section>
+
+<div class="interlude">
+  <span class="interlude-arrow">--&gt;</span>
+  <p>Institutions preserve objects and documents, but access remains constrained. Where formal archives reach their limits, community networks take over, maintaining the circulation and playability that institutions cannot provide.</p>
+</div>
+
+<!-- ══ VOL II, COMMUNITY ══════════════════════════════════ -->
+<section id="community" class="exhibit-section">
+  <div class="container">
+    <div class="life-bar reveal">
+      <span class="life-label">Vol. II</span>
+      <div class="life-pip inst"></div><div class="life-pip comm"></div><div class="life-pip"></div>
+    </div>
+    <div class="section-eyebrow comm reveal">Environment 02 · Amelia Wimbish</div>
+    <div class="section-grid">
+      <div class="reveal d1">
+        <div class="section-title comm">Community<br>Preservation<br>Infrastructures</div>
+      </div>
+      <div class="content-panel comm reveal d2">
+        <p class="p-bright">Community preservation infrastructures play a central role in keeping video games accessible, particularly when institutional access is limited or delayed. Built and maintained outside formal institutions, these networks prioritize playability and access, sustaining games across changing hardware and software environments through coordinated volunteer labor, technical systems, and shared values.</p>
+      </div>
+    </div>
+
+    <div class="img-ph tall comm reveal" style="margin-bottom:28px;">
+      <span class="ph-icon-px">[ IMG ]</span>
+      <span class="ph-text">Hero screenshot<br>e.g. Internet Archive ROM library<br>or No-Intro DAT-o-MATIC interface</span>
+    </div>
+
+    <div class="subsections">
+      <div class="subsection comm reveal d1">
+        <span class="sub-label">The Verification Layer</span>
+        <p>Groups like No-Intro and Redump maintain standardized metadata systems, DAT files cataloging filenames, checksums, and cryptographic hashes for every known game revision. These practices function as informal archival quality control, ensuring collections remain accurate and complete across thousands of titles.</p>
+        <div class="placeholder-img medium comm">
+          <span class="ph-icon-px">[ IMG ]</span>
+          <span class="ph-text">Screenshot<br>No-Intro DAT-o-MATIC or Redump database</span>
+        </div>
+      </div>
+      <div class="subsection comm reveal d2">
+        <span class="sub-label">The Platform</span>
+        <p>Hosting environments like the Internet Archive's software collections make verified game files accessible at scale, fast downloads, clear folder structures, compatibility with emulation tools. These platforms reflect community values: minimal barriers, broad access, usability as a preservation principle in itself.</p>
+        <div class="placeholder-img medium comm">
+          <span class="ph-icon-px">[ IMG ]</span>
+          <span class="ph-text">Screenshot<br>Internet Archive software library or similar</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="case-study comm reveal">
+      <span class="case-nameplate">Case Study</span>
+      <div class="case-title" style="color:var(--comm);">Myrient · Shutdown &amp; Redistribution</div>
+      <p>When Myrient (a 390TB ROM hosting platform) went offline on March 31, 2026, community members mobilized within 24 hours. The Minerva Archive, coordinated through Reddit's r/SaveMyrient, completed a full mirror of all 385TB in approximately 16 days, then redistributed through torrent-based systems. Participants replicated Myrient's organizational structure and navigation, preserving the <em>experience</em> of access alongside the data itself. The operator described it as "the community coming together to save a common good."</p>
+      <div class="placeholder-img wide comm" style="margin-top:20px;">
+        <span class="ph-icon-px">[ IMG ]</span>
+        <span class="ph-text">Archived Myrient interface (Wayback Machine) + Minerva Archive site</span>
+      </div>
+    </div>
+
+    <div class="challenge comm reveal">
+      <div class="challenge-hd">Precarity &amp; Legal Constraint</div>
+      <p>In 2024, the U.S. Copyright Office rejected an exemption that would have allowed archives to share game collections remotely with researchers. Myrient shut down not from legal action but financial collapse, $6,000/month out of pocket, donations stalled, hardware costs surging due to AI datacenter demand. The torrent replacement is resilient but seeder-dependent: whether 385TB of gaming history stays accessible is now, as one outlet put it, "a seeder problem, not a backup problem."</p>
+    </div>
+  </div>
+</section>
+
+<div class="interlude">
+  <span class="interlude-arrow">--&gt;</span>
+  <p>Community infrastructures maintain access and circulation, making games playable. Modding communities take that playability further, transforming games and developing their own cultures of documentation and creative practice.</p>
+</div>
+
+<!-- ══ VOL III, MODDING ════════════════════════════════════ -->
+<section id="modding" class="exhibit-section">
+  <div class="container">
+    <div class="life-bar reveal">
+      <span class="life-label">Vol. III</span>
+      <div class="life-pip inst"></div><div class="life-pip comm"></div><div class="life-pip mod"></div>
+    </div>
+    <div class="section-eyebrow mod reveal">Environment 03 · Modding Communities</div>
+    <div class="section-grid">
+      <div class="reveal d1">
+        <div class="section-title mod">Modding<br>Communities</div>
+        </div>
+      <div class="content-panel mod reveal d2">
+        <div class="placeholder-block"><p>Author's opening on modding communities — who they are, what they do, why modding constitutes a form of preservation. Name 1–2 specific communities or platforms.</p></div>
+      </div>
+    </div>
+
+    <div class="img-ph tall mod reveal" style="margin-bottom:28px;">
+      <span class="ph-icon-px">[ IMG ]</span>
+      <span class="ph-text">Hero screenshot<br>e.g. Nexus Mods / mod database / fan patch</span>
+    </div>
+
+    <div class="subsections">
+      <div class="subsection mod reveal d1">
+        <span class="sub-label">What Gets Preserved</span>
+        <div class="placeholder-block"><p>What gets preserved: creative practices, fan knowledge, alternative game versions, accessibility patches, translations that never received official localization.</p></div>
+        <div class="placeholder-img medium mod">
+          <span class="ph-icon-px">[ IMG ]</span>
+          <span class="ph-text">Screenshot<br>mod repository / fan translation</span>
+        </div>
+      </div>
+      <div class="subsection mod reveal d2">
+        <span class="sub-label">How It Works</span>
+        <div class="placeholder-block"><p>How it works: platforms like Nexus Mods or ModDB, documentation practices, version control, community norms around attribution and sharing.</p></div>
+        <div class="placeholder-img medium mod">
+          <span class="ph-icon-px">[ IMG ]</span>
+          <span class="ph-text">Screenshot<br>Nexus Mods interface / community forum</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="case-study mod reveal">
+      <span class="case-nameplate">Case Study</span>
+      <div class="placeholder-block" style="margin-top:8px;">
+        <div class="case-title" style="color:var(--mod);font-size:1.3rem;margin-bottom:10px;">Case Study Name</div>
+        <p>Detailed example: a fan translation, accessibility mod, total conversion that outlived its source game, or a community maintaining mods for a game the original studio abandoned.</p>
+      </div>
+      <div class="placeholder-img wide mod" style="margin-top:20px;">
+        <span class="ph-icon-px">[ IMG ]</span>
+        <span class="ph-text">Screenshot of featured mod or project documentation</span>
+      </div>
+    </div>
+
+    <div class="challenge mod reveal">
+      <div class="challenge-hd">Key Tension</div>
+      <div class="placeholder-block"><p>Key tension: legal ambiguity around derivative works, DMCA takedowns, dependence on specific game versions or DRM states, and the risk that mods become unplayable when underlying games update or delist.</p></div>
+    </div>
+
+    <blockquote class="pull-quote mod reveal">
+      "Fan-made ports, modifications, and re-implementations have made games more accessible in ways no institution could replicate."
+      <span class="caption">Phil Salvador, Video Game History Foundation</span>
+    </blockquote>
+  </div>
+</section>
+
+<!-- ══ CLOSING ════════════════════════════════════════════ -->
+<section id="closing">
+  <div class="container">
+    <div class="closing-gem-row reveal">* * * * *</div>
+    <div class="closing-title reveal d1">The End of the Collection</div>
+    <p class="closing-text reveal d2">Video game preservation does not exist within a single archival framework. It is distributed across institutional archives, community networks, and modding communities, each sustaining a different aspect of what games mean and how they survive. Preservation is not only about storing objects. It is about maintaining the systems, practices, and communities that keep culture accessible and alive.</p>
+
+    <div class="closing-grid">
+      <div class="credits-panel reveal">
+        <div class="credits-hd">-- Contributors --</div>
+        <div class="cr-row"><span class="cr-key">Volume I</span><span class="cr-val">Matt Cooley</span></div>
+        <div class="cr-row"><span class="cr-key">Volume II</span><span class="cr-val" style="color:var(--comm);">Amelia Wimbish</span></div>
+        <div class="cr-row"><span class="cr-key">Volume III</span><span class="cr-val">Darby Freeman</span></div>
+        <div class="cr-row"><span class="cr-key">Course</span><span class="cr-val">INLS 759 · Community Archives</span></div>
+        <div class="cr-row"><span class="cr-key">School</span><span class="cr-val">SILS, UNC Chapel Hill</span></div>
+        <div class="cr-row"><span class="cr-key">Submitted</span><span class="cr-val">April 27, 2026</span></div>
+      </div>
+      <div class="refs-panel reveal d1">
+        <div class="ref"><span class="ref-lbl">Caswell 2014</span><span class="ref-body">Seeing Yourself in History: Community Archives and the Fight Against Symbolic Annihilation. <em>The Public Historian</em>, 36(4), 26–37.</span></div>
+        <div class="ref"><span class="ref-lbl">Flinn, Stevens &amp; Shepherd 2009</span><span class="ref-body">Whose memories, whose archives? Independent community archives, autonomy, and the mainstream. <em>Archival Science</em>, 9(71).</span></div>
+        <div class="ref"><span class="ref-lbl">Gabiola et al. 2022</span><span class="ref-body">"It's a Trap": Complicating Representation in Community-Based Archives. <em>The American Archivist</em>, 85(1), 60–87.</span></div>
+        <div class="ref"><span class="ref-lbl">Guay-Belanger 2022</span><span class="ref-body">Assembling Auras. <em>Games and Culture</em>, 17(5).</span></div>
+        <div class="ref"><span class="ref-lbl">Salvador 2023</span><span class="ref-body">Survey of the Video Game Reissue Market in the United States. VGHF / SPN.</span></div>
+        <div class="ref"><span class="ref-lbl">U.S. Copyright Office 2024</span><span class="ref-body">Section 1201 Triennial Rulemaking Final Rule. <em>Federal Register</em> 89(208).</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-t">
+    <span>Please Press Continue</span> · Distributed Care<br>
+    INLS 759 · Community Archives · SILS, UNC Chapel Hill · 2026<br>
+  </div>
+</footer>
+
+<!-- ══ MUSIC BTN ════════════════════════════════════════════ -->
+<button id="music-btn" onclick="toggleMusic()">[ music: off ]</button>
+
+    
+  </div>
+</div>
+
+<script>
+// ══ START ═════════════════════════════════════════════════
+const startEl = document.getElementById('start-screen');
+const navEl   = document.getElementById('nav');
+let started   = false;
+
+function beginExhibit() {
+  if (started) return; started = true;
+  startEl.style.transition = 'opacity 0.7s ease';
+  startEl.style.opacity = '0';
+  setTimeout(() => {
+    startEl.style.display = 'none';
+    navEl.classList.add('visible');
+    initPixelScene();
+    runHero();
+    initCursorTrail();
+  }, 700);
+}
+
+startEl.addEventListener('click', beginExhibit);
+document.addEventListener('keydown', e => { if (!started) beginExhibit(); });
+
+
+
+// ══ TYPING ════════════════════════════════════════════════
+function type(el, text, speed, cb) {
+  let i = 0; el.textContent = '';
+  const t = setInterval(() => {
+    el.textContent += text[i++];
+    if (i >= text.length) { clearInterval(t); if (cb) cb(); }
+  }, speed);
+}
+
+function runHero() {
+  const label = document.getElementById('hero-label');
+  const title = document.getElementById('hero-title');
+  const sub   = document.getElementById('hero-sub');
+  const desc  = document.getElementById('hero-desc');
+  const hint  = document.getElementById('hero-hint');
+  const meta  = document.getElementById('hero-meta');
+
+  setTimeout(() => {
+    label.classList.add('in');
+    setTimeout(() => {
+      type(title, 'Please Press Continue', 70, () => {
+        setTimeout(() => {
+          type(sub, 'Distributed Care', 35, () => {
+            desc.classList.add('in');
+            hint.classList.add('in');
+            meta.classList.add('in');
+          });
+        }, 150);
+      });
+    }, 350);
+  }, 200);
+}
+
+// ══ CURSOR TRAIL ══════════════════════════════════════════
+const TRAIL_COLORS = [
+  'rgba(184,160,232,VAL)', 'rgba(123,184,212,VAL)',
+  'rgba(212,149,106,VAL)', 'rgba(232,228,192,VAL)',
+];
+const TRAIL_MAX = 14;
+let trailDots = [];
+
+function initCursorTrail() {
+  for (let i = 0; i < TRAIL_MAX; i++) {
+    const d = document.createElement('div');
+    d.className = 'cursor-trail';
+    const size = 14 - i * 0.7;
+    const col = TRAIL_COLORS[i % TRAIL_COLORS.length];
+    d.style.cssText = `
+      width:${size}px; height:${size}px;
+      background:${col.replace('VAL', (0.5 - i * 0.03).toFixed(2))};
+      box-shadow:0 0 ${size}px ${col.replace('VAL','0.3')};
+    `;
+    document.body.appendChild(d);
+    trailDots.push({ el: d, x: -100, y: -100 });
+  }
+
+  let mx = -100, my = -100;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+
+  function animTrail() {
+    let px = mx, py = my;
+    trailDots.forEach((dot, i) => {
+      dot.el.style.left = px + 'px';
+      dot.el.style.top  = py + 'px';
+      dot.el.style.opacity = i === 0 ? '0.9' : (0.7 - i * 0.045).toFixed(2);
+      const nx = px; const ny = py;
+      px = dot.x + (px - dot.x) * 0.45;
+      py = dot.y + (py - dot.y) * 0.45;
+      dot.x = nx; dot.y = ny;
+    });
+    requestAnimationFrame(animTrail);
+  }
+  animTrail();
+}
+
+// ══ DAY/NIGHT SKY (scroll-driven) ══════════════════════════
+// ══ PIXEL ART LIBRARY SCENE ═══════════════════════════════
+function initPixelScene() {
+  const canvas = document.getElementById('pixel-scene');
+  if (!canvas) return;
+  const W = canvas.offsetWidth;
+  const H = 140;
+  const PX = 4; // pixel size, each "pixel" is 4x4 CSS px
+  canvas.width  = Math.floor(W / PX);
+  canvas.height = Math.floor(H / PX);
+  const ctx = canvas.getContext('2d');
+  ctx.imageSmoothingEnabled = false;
+
+  const cw = canvas.width;
+  const ch = canvas.height;
+
+  // colour palette
+  const C = {
+    floor:     '#1a1d35',
+    floorLine: '#252848',
+    shelf:     '#2a1f10',
+    shelfTop:  '#3d2d18',
+    shelfShadow:'#1a1008',
+    wall:      '#0d0f1a',
+    // book colours
+    books: ['#3d6080','#5a4080','#7bb8d4','#b8a0e8','#d4956a',
+            '#404a35','#703040','#305060','#604090','#805040',
+            '#4a6850','#70504a','#506090','#8a6030','#405878'],
+    bookSpine: 'rgba(0,0,0,0.3)',
+    // candle
+    candleBody:  '#c8b890',
+    candleWax:   '#e8d8b0',
+    flameOuter:  '#e8a030',
+    flameMid:    '#f8d060',
+    flameInner:  '#ffffff',
+    // window
+    winFrame:    '#2a2040',
+    winGlass:    '#1a2845',
+    winMoon:     '#d8e8f8',
+    winStar:     '#f0ecd0',
+    winGlow:     'rgba(100,140,220,0.15)',
+    // cat
+    cat:         '#1a1830',
+    catEye:      '#90d8b0',
+    catEar:      '#2a2840',
+    // dust
+    dust:        'rgba(200,190,240,0.35)',
+  };
+
+  function px(x, y, col, w=1, h=1) {
+    ctx.fillStyle = col;
+    ctx.fillRect(x, y, w, h);
+  }
+
+  let frame = 0;
+
+  function draw() {
+    ctx.clearRect(0, 0, cw, ch);
+
+    // ── wall background ──
+    px(0, 0, C.wall, cw, ch);
+
+    // ── floor ──
+    const floorY = ch - 6;
+    px(0, floorY, C.floor, cw, 6);
+    px(0, floorY, C.floorLine, cw, 1);
+
+    // ── shelves: three horizontal shelves ──
+    const shelfH = 2;
+    const shelves = [Math.floor(ch * 0.28), Math.floor(ch * 0.56)];
+
+    shelves.forEach(sy => {
+      px(0, sy, C.shelfTop, cw, 1);
+      px(0, sy + 1, C.shelf, cw, shelfH - 1);
+      px(0, sy + shelfH, C.shelfShadow, cw, 1);
+    });
+
+    // ── books on shelf 1 ──
+    let bx = 2;
+    const shelf1Y = shelves[0];
+    while (bx < cw - 20) {
+      const bw = 2 + Math.floor(((bx * 7 + 3) % 4));
+      const bh = 8 + Math.floor(((bx * 13 + 5) % 8));
+      const col = C.books[(bx * 3 + 1) % C.books.length];
+      px(bx, shelf1Y - bh, col, bw, bh);
+      px(bx, shelf1Y - bh, C.bookSpine, 1, bh);
+      px(bx, shelf1Y - 2, 'rgba(255,255,255,0.06)', bw, 1);
+      bx += bw + 1;
+    }
+
+    // ── books on shelf 2 ──
+    bx = 1;
+    const shelf2Y = shelves[1];
+    while (bx < cw - 10) {
+      const bw = 2 + Math.floor(((bx * 11 + 7) % 4));
+      const bh = 7 + Math.floor(((bx * 17 + 3) % 9));
+      const col = C.books[(bx * 5 + 2) % C.books.length];
+      px(bx, shelf2Y - bh, col, bw, bh);
+      px(bx, shelf2Y - bh, C.bookSpine, 1, bh);
+      bx += bw + 1;
+    }
+
+    // ── books on floor shelf (bottom) ──
+    bx = 3;
+    while (bx < cw - 8) {
+      const bw = 2 + Math.floor(((bx * 9 + 2) % 3));
+      const bh = 6 + Math.floor(((bx * 19 + 1) % 7));
+      const col = C.books[(bx * 7 + 4) % C.books.length];
+      px(bx, floorY - bh, col, bw, bh);
+      px(bx, floorY - bh, C.bookSpine, 1, bh);
+      bx += bw + 1;
+    }
+
+    // ── moon window ──
+    const winX = Math.floor(cw * 0.72);
+    const winW = 18, winH = Math.floor(ch * 0.75);
+    const winY = 1;
+
+    // window frame
+    px(winX, winY, C.winFrame, winW, winH);
+    // glass
+    px(winX + 1, winY + 1, C.winGlass, winW - 2, winH - 2);
+    // moon glow
+    px(winX + 1, winY + 1, C.winGlow, winW - 2, winH - 2);
+    // moon
+    const moonX = winX + 7, moonY = winY + 4;
+    const moonR = 4;
+    for (let dy = -moonR; dy <= moonR; dy++) {
+      for (let dx = -moonR; dx <= moonR; dx++) {
+        if (dx*dx + dy*dy <= moonR*moonR) {
+          const alpha = 1 - Math.sqrt(dx*dx+dy*dy)/moonR * 0.3;
+          ctx.fillStyle = `rgba(216,232,248,${alpha.toFixed(2)})`;
+          ctx.fillRect(moonX+dx, moonY+dy, 1, 1);
+        }
+      }
+    }
+    // window cross bar
+    px(winX, winY + Math.floor(winH * 0.45), C.winFrame, winW, 1);
+    px(winX + Math.floor(winW * 0.5), winY, C.winFrame, 1, winH);
+    // window stars
+    const stars = [[winX+3,winY+3],[winX+14,winY+6],[winX+5,winY+18],[winX+15,winY+22]];
+    stars.forEach(([sx,sy]) => {
+      const twinkle = Math.sin(frame * 0.08 + sx) > 0 ? 0.9 : 0.4;
+      ctx.fillStyle = `rgba(240,236,208,${twinkle})`;
+      ctx.fillRect(sx, sy, 1, 1);
+    });
+
+    // ── candle ──
+    const cndX = Math.floor(cw * 0.55);
+    const cndY = shelf2Y - 10;
+
+    // flame flicker
+    const flick = Math.sin(frame * 0.18) * 0.5 + Math.cos(frame * 0.27) * 0.3;
+    const flameH = 4 + Math.round(flick);
+
+    // candle glow on surroundings
+    const glowRadius = 12 + Math.round(flick * 2);
+    const grad = ctx.createRadialGradient(cndX+1, cndY-2, 0, cndX+1, cndY-2, glowRadius);
+    grad.addColorStop(0, 'rgba(255,180,60,0.18)');
+    grad.addColorStop(1, 'transparent');
+    ctx.fillStyle = grad;
+    ctx.fillRect(cndX - glowRadius, cndY - glowRadius, glowRadius*2, glowRadius*2);
+
+    // candle body
+    px(cndX, cndY, C.candleBody, 3, 7);
+    px(cndX, cndY, C.candleWax, 3, 1);
+    // flame outer
+    px(cndX, cndY - flameH, C.flameOuter, 3, flameH);
+    // flame mid
+    px(cndX + 1, cndY - flameH + 1, C.flameMid, 1, flameH - 1);
+    // flame tip
+    if (flameH > 3) px(cndX + 1, cndY - flameH, C.flameInner, 1, 1);
+
+    // ── cat on shelf 2 ──
+    const catX = Math.floor(cw * 0.62);
+    const catY = shelf2Y - 8;
+
+    // cat body (curled)
+    px(catX, catY + 3, C.cat, 8, 4);
+    px(catX + 1, catY + 2, C.cat, 6, 2);
+    px(catX + 2, catY + 1, C.cat, 5, 2);
+    // head
+    px(catX + 5, catY, C.cat, 5, 5);
+    px(catX + 4, catY + 1, C.cat, 1, 3);
+    // ears
+    px(catX + 5, catY - 1, C.catEar, 2, 1);
+    px(catX + 8, catY - 1, C.catEar, 2, 1);
+    // eyes, blink every ~120 frames
+    const blink = (frame % 150) < 8;
+    if (!blink) {
+      px(catX + 6, catY + 2, C.catEye, 1, 1);
+      px(catX + 8, catY + 2, C.catEye, 1, 1);
+    } else {
+      px(catX + 6, catY + 2, C.cat, 2, 1);
+    }
+    // tail curl
+    px(catX - 1, catY + 4, C.cat, 2, 3);
+    px(catX - 2, catY + 5, C.cat, 1, 2);
+
+    // ── dust motes ──
+    for (let m = 0; m < 5; m++) {
+      const mx = (cw * 0.1 + m * cw * 0.18 + Math.sin(frame * 0.02 + m * 2.1) * 4) % cw;
+      const my = 4 + Math.cos(frame * 0.015 + m * 1.7) * 3;
+      ctx.fillStyle = C.dust;
+      ctx.fillRect(Math.round(mx), Math.round(my), 1, 1);
+    }
+
+    frame++;
+    requestAnimationFrame(draw);
+  }
+
+  draw();
+}
+
+// ══ SCROLL REVEALS ════════════════════════════════════════
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// ══ PROGRESS + SKY ════════════════════════════════════════
+const SECS = [
+  { id: 'hero',          name: 'Introduction',        pct: 0   },
+  { id: 'collection',   name: 'The Collection',      pct: 12  },
+  { id: 'institutional', name: 'Vol. I',              pct: 30  },
+  { id: 'community',    name: 'Vol. II',              pct: 58  },
+  { id: 'modding',      name: 'Vol. III',             pct: 80  },
+  { id: 'closing',      name: 'Colophon',             pct: 100 },
+];
+
+const stageNameEl = document.getElementById('stage-name');
+const progFill    = document.getElementById('prog-fill');
+const navAs       = document.querySelectorAll('.nav-links a');
+const skyEl       = document.getElementById('sky-overlay');
+
+const SKY_STAGES = [
+  { id: 'hero',          bg: 'transparent' },
+  { id: 'collection',   bg: 'radial-gradient(ellipse at 50% 0%, rgba(20,15,60,0.08) 0%, transparent 70%)' },
+  { id: 'institutional', bg: 'radial-gradient(ellipse at 30% 0%, rgba(15,25,80,0.14) 0%, transparent 65%)' },
+  { id: 'community',    bg: 'radial-gradient(ellipse at 60% 0%, rgba(40,15,70,0.16) 0%, transparent 65%)' },
+  { id: 'modding',      bg: 'radial-gradient(ellipse at 40% 0%, rgba(60,20,30,0.12) 0%, transparent 60%)' },
+  { id: 'closing',      bg: 'radial-gradient(ellipse at 50% 0%, rgba(80,50,20,0.1) 0%, transparent 55%)' },
+];
+
+function updateProg() {
+  const sy = window.scrollY + 130;
+  let cur = SECS[0], skyCur = SKY_STAGES[0];
+  SECS.forEach((s, i) => {
+    const el = document.getElementById(s.id);
+    if (el && el.offsetTop <= sy) { cur = s; skyCur = SKY_STAGES[i]; }
+  });
+  stageNameEl.textContent = cur.name;
+  progFill.style.width = cur.pct + '%';
+  navAs.forEach(a => a.classList.toggle('active', a.getAttribute('href').slice(1) === cur.id));
+  skyEl.style.background = skyCur.bg;
+}
+
+window.addEventListener('scroll', updateProg);
+updateProg();
+
+// ══ CHIPTUNE ══════════════════════════════════════════════
+let actx = null, playing = false, snodes = [], ltimer = null;
+
+function getActx() {
+  if (!actx) actx = new (window.AudioContext || window.webkitAudioContext)();
+  return actx;
+}
+
+const MEL = [
+  [293.66,.3],[349.23,.3],[392,.3],
+  [440,.3],[392,.3],[349.23,.3],
+  [329.63,.3],[293.66,.3],[261.63,.3],
+  [293.66,.6],[0,.3],
+  [349.23,.3],[392,.3],[440,.3],
+  [493.88,.3],[440,.3],[392,.3],
+  [369.99,.3],[329.63,.3],[293.66,.3],
+  [349.23,.9],
+];
+const BASS_N = [146.83,174.61,146.83,174.61,130.81,155.56,130.81,155.56];
+
+function playNote(freq, t, dur, type, g) {
+  if (!actx || freq === 0) return;
+  const o = actx.createOscillator(), gn = actx.createGain();
+  o.connect(gn); gn.connect(actx.destination);
+  o.type = type; o.frequency.value = freq;
+  gn.gain.setValueAtTime(0, t);
+  gn.gain.linearRampToValueAtTime(g, t + 0.03);
+  gn.gain.linearRampToValueAtTime(0, t + dur - 0.03);
+  o.start(t); o.stop(t + dur);
+  snodes.push(o);
+}
+
+function scheduleLoop() {
+  if (!playing) return;
+  const now = actx.currentTime + 0.05;
+  let t = now;
+  const total = MEL.reduce((a, [, d]) => a + d, 0);
+  MEL.forEach(([f, d]) => { playNote(f, t, d * .88, 'sine', 0.08); t += d; });
+  const step = total / BASS_N.length;
+  let tb = now;
+  BASS_N.forEach(f => { playNote(f, tb, step * .35, 'triangle', 0.045); tb += step; });
+  ltimer = setTimeout(scheduleLoop, total * 1000 - 80);
+}
+
+function toggleMusic() {
+  const btn = document.getElementById('music-btn');
+  if (!playing) {
+    getActx();
+    playing = true; btn.textContent = '[ music: on ]'; btn.classList.add('on');
+    scheduleLoop();
+  } else {
+    playing = false; btn.textContent = '[ music: off ]'; btn.classList.remove('on');
+    if (ltimer) clearTimeout(ltimer);
+    snodes.forEach(n => { try { n.stop(); } catch(e){} }); snodes = [];
+  }
+}
+</script>
+</body>
+</html>
